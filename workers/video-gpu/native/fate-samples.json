@@ -1,0 +1,38 @@
+[
+  {
+    "file": "cfhd/cfhd_422.avi",
+    "url": "https://fate-suite.ffmpeg.org/cfhd/cfhd_422.avi",
+    "bytes": 546516,
+    "sha256": "d9e53db90281ba43a9f9d701c6530be4cd7a35242d0eef3cdd23317bcda85506"
+  },
+  {
+    "file": "cfhd/cfhd_444.avi",
+    "url": "https://fate-suite.ffmpeg.org/cfhd/cfhd_444.avi",
+    "bytes": 1017600,
+    "sha256": "e57493a765ebc66c07f9a4207db3c6775536ca57237501ddb14240e1d9ab162b"
+  },
+  {
+    "file": "cfhd/cfhd_odd.mov",
+    "url": "https://fate-suite.ffmpeg.org/cfhd/cfhd_odd.mov",
+    "bytes": 515263,
+    "sha256": "36d9a566c405f147f3fd474a59ae0b4e614f495fa5348293843e613bf1caad16"
+  },
+  {
+    "file": "fli/fli-engines.fli",
+    "url": "https://fate-suite.ffmpeg.org/fli/fli-engines.fli",
+    "bytes": 1589788,
+    "sha256": "d0c536ad4481cd1f1e5764175f1a4bf1b5a17bc0df3da866d12b5a0824cadb8b"
+  },
+  {
+    "file": "fli/jj00c2.fli",
+    "url": "https://fate-suite.ffmpeg.org/fli/jj00c2.fli",
+    "bytes": 901390,
+    "sha256": "41038fd05f38115350c4ba09cf05fb20b8f3bc3cc6538b74e23ea4b12499e1a6"
+  },
+  {
+    "file": "fli/intel.dat",
+    "url": "https://fate-suite.ffmpeg.org/fli/intel.dat",
+    "bytes": 296632,
+    "sha256": "99febabe09b5f7e5eb7774b71270b386d2c37ff1fce56aef30003c42afa3d51b"
+  }
+]

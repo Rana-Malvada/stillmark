@@ -1,0 +1,74 @@
+From: Stillmark build maintainers
+Subject: [PATCH] tests: match swscale ops tests to CONFIG_UNSTABLE
+
+The pinned vendor disables experimental swscale ops in production.
+Keep its test object, registration and executable under the same config gate.
+No runtime library sources or enabled-feature tests are changed.
+
+diff --git a/tests/checkasm/Makefile b/tests/checkasm/Makefile
+--- a/tests/checkasm/Makefile
++++ b/tests/checkasm/Makefile
+@@ -80,7 +80,6 @@
+ 
+ # swscale tests
+ SWSCALEOBJS                             += sw_gbrp.o            \
+-                                           sw_ops.o             \
+                                            sw_range_convert.o   \
+                                            sw_rgb.o             \
+                                            sw_scale.o           \
+@@ -88,7 +87,9 @@
+                                            sw_yuv2rgb.o         \
+                                            sw_yuv2yuv.o
+ 
+-CHECKASMOBJS-$(CONFIG_SWSCALE)  += $(SWSCALEOBJS)
++SWSCALEOBJS-$(CONFIG_UNSTABLE) += sw_ops.o
++
++CHECKASMOBJS-$(CONFIG_SWSCALE)  += $(SWSCALEOBJS) $(SWSCALEOBJS-yes)
+ 
+ # libavutil tests
+ AVUTILOBJS                              += aes.o
+diff --git a/tests/checkasm/checkasm.c b/tests/checkasm/checkasm.c
+--- a/tests/checkasm/checkasm.c
++++ b/tests/checkasm/checkasm.c
+@@ -347,7 +347,9 @@
+     { "sw_xyz2rgb", checkasm_check_sw_xyz2rgb },
+     { "sw_yuv2rgb", checkasm_check_sw_yuv2rgb },
+     { "sw_yuv2yuv", checkasm_check_sw_yuv2yuv },
++    #if CONFIG_UNSTABLE
+     { "sw_ops", checkasm_check_sw_ops },
++    #endif
+ #endif
+ #if CONFIG_AVUTIL
+         { "aes",       checkasm_check_aes },
+diff --git a/tests/fate/checkasm.mak b/tests/fate/checkasm.mak
+--- a/tests/fate/checkasm.mak
++++ b/tests/fate/checkasm.mak
+@@ -55,7 +55,6 @@
+                 fate-checkasm-svq1enc                                   \
+                 fate-checkasm-synth_filter                              \
+                 fate-checkasm-sw_gbrp                                   \
+-                fate-checkasm-sw_ops                                    \
+                 fate-checkasm-sw_range_convert                          \
+                 fate-checkasm-sw_rgb                                    \
+                 fate-checkasm-sw_scale                                  \
+@@ -90,6 +89,10 @@
+                 fate-checkasm-vvc_mc                                    \
+                 fate-checkasm-vvc_sao                                   \
+ 
++ifeq ($(CONFIG_UNSTABLE),yes)
++FATE_CHECKASM += fate-checkasm-sw_ops
++endif
++
+ $(FATE_CHECKASM): tests/checkasm/checkasm$(EXESUF)
+ $(FATE_CHECKASM): CMD = run tests/checkasm/checkasm$(EXESUF) --test=$(@:fate-checkasm-%=%)
+ $(FATE_CHECKASM): CMP = null
+diff --git a/libswscale/Makefile b/libswscale/Makefile
+--- a/libswscale/Makefile
++++ b/libswscale/Makefile
+@@ -49,4 +49,5 @@
+             floatimg_cmp                                                \
+             pixdesc_query                                               \
+             swscale                                                     \
+-            sws_ops                                                     \
++
++TESTPROGS-$(CONFIG_UNSTABLE) += sws_ops

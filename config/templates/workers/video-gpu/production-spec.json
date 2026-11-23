@@ -1,0 +1,70 @@
+{
+  "spec": {
+    "containers": [
+      {
+        "name": "worker",
+        "image": "{{GPU_IMAGE}}",
+        "command": ["/usr/bin/timeout"],
+        "args": ["--kill-after=30s", "7500", "/usr/local/bin/node", "/worker/worker.mjs"],
+        "env": {
+          "NVIDIA_DRIVER_CAPABILITIES": "compute,video,utility",
+          "PG_HOST": "{{PG_HOST}}",
+          "PG_DATABASE": "{{PG_DATABASE}}",
+          "PG_USER": "{{GPU_PG_USER}}",
+          "PG_SSL_ROOT_CERT": "/worker/postgres-root.crt",
+          "WORKER_CONCURRENCY": "2",
+          "WORKER_MAX_JOBS": "3",
+          "WORKER_MAX_SECONDS": "7200"
+        },
+        "secrets": [
+          {
+            "snowflakeSecret": "{{DATABASE}}.{{APP_SCHEMA}}.{{GPU_SECRET}}",
+            "directoryPath": "/secrets/PG_SECRET"
+          }
+        ],
+        "resources": {
+          "requests": {
+            "cpu": 4,
+            "memory": "8Gi",
+            "nvidia.com/gpu": 1
+          },
+          "limits": {
+            "cpu": 6,
+            "memory": "24Gi",
+            "nvidia.com/gpu": 1
+          }
+        },
+        "volumeMounts": [
+          {
+            "name": "originals",
+            "mountPath": "/input"
+          },
+          {
+            "name": "playback",
+            "mountPath": "/output"
+          }
+        ]
+      }
+    ],
+    "volumes": [
+      {
+        "name": "originals",
+        "source": "stage",
+        "uid": 65532,
+        "gid": 65532,
+        "stageConfig": {
+          "name": "@{{DATABASE}}.{{RAW_SCHEMA}}.{{PHOTO_STAGE}}"
+        }
+      },
+      {
+        "name": "playback",
+        "source": "stage",
+        "uid": 65532,
+        "gid": 65532,
+        "stageConfig": {
+          "name": "@{{DATABASE}}.{{RAW_SCHEMA}}.{{DERIVED_STAGE}}/display/prepared"
+        }
+      }
+    ]
+  }
+}

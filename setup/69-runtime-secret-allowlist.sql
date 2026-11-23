@@ -1,0 +1,3 @@
+-- Runtime mounts this scoped app login; preserve the existing network-rule list.
+ALTER EXTERNAL ACCESS INTEGRATION PERSONAL_PHOTOS_EAI
+ SET ALLOWED_AUTHENTICATION_SECRETS=(PERSONAL_MEDIA.APP.PG_APP_SECRET);

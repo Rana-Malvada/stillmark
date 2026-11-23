@@ -1,0 +1,2 @@
+ALTER TABLE video_playback ADD COLUMN IF NOT EXISTS renditions JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE video_playback ADD COLUMN IF NOT EXISTS format_version INTEGER NOT NULL DEFAULT 1;

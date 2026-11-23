@@ -1,0 +1,8 @@
+# Pass an immutable image digest (repository@sha256:...) from a verified build.
+# Use the exact, tested production scanner; repair is a separate one-time job.
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+ARG BASE_IMAGE
+RUN case "$BASE_IMAGE" in *@sha256:*) ;; *) echo 'BASE_IMAGE must use a registry digest' >&2; exit 1 ;; esac
+COPY repair.py /worker/repair.py
+ENTRYPOINT ["python", "/worker/repair.py"]

@@ -1,0 +1,9 @@
+# The build context is the repository root, so this file (named after the Dockerfile) is
+# the one the build reads. Send only what the Dockerfile copies. A locally installed
+# node_modules or a local dist must never reach the image: the build installs its own
+# from the lock file, and a stale local copy would silently replace them.
+**
+!workers/video-gpu/**
+!lib/**
+**/node_modules
+workers/video-gpu/dist

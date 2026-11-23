@@ -1,0 +1,23 @@
+{
+  "version": "3.4.1",
+  "files": {
+    "base.js": {
+      "originalSha256": "7520a9feff97cfb89fca852138f8cddd05cf8571eccbe675db49cd725c449618",
+      "before": "    const url = new URL(options.url);",
+      "after": "    require('./stillmark_deadline').applySignal(requestOptions);\n    const url = new URL(options.url);",
+      "patchedSha256": "a3a99dd61e6088516b157b199ba26e2aa39ee08d777b241c39d9907639362219"
+    },
+    "axios_instance.js": {
+      "originalSha256": "1e4924dbee1d1f50c53571921df944ff12a4aeac19c4e63a7d51768f43c084f4",
+      "before": "        await Util.sleep(sleepTime * 1000);",
+      "after": "        await require('./stillmark_deadline').sleep(sleepTime * 1000, config.signal);",
+      "patchedSha256": "ee3a6f03e8f35913f84ba8968efe5121dd249e03c64c47cf01993983f8c574f2"
+    },
+    "../core.js": {
+      "originalSha256": "10b7456fb5248dece5c58852f609580ef54364b5c11310b55e6ca423be3355ae",
+      "before": "                        reject(new Error(err.message));",
+      "after": "                        // Preserve only scalar diagnostics, never the HTTP response (it can contain credentials).\n                        const failure = new Error(err.message);\n                        if (Number.isInteger(err.code)) failure.code = err.code;\n                        const status = err.response && err.response.statusCode;\n                        if (Number.isInteger(status) && status >= 100 && status <= 599) failure.snowflakeHttpStatus = status;\n                        reject(failure);",
+      "patchedSha256": "355af5aa6fe05ac569d989ad7509c1087f9904403d4a554d4150707aabcd5917"
+    }
+  }
+}

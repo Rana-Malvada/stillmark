@@ -1,0 +1,71 @@
+/* Shared by the application and public album pages. */
+:root {
+  --app-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --app-font-display: 'Avenir Next', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  color-scheme: light;
+  --app-header-offset: 9rem;
+  --background: #eee9e1;
+  --foreground: #29251f;
+  --card: #ffffff;
+  --popover: #ffffff;
+  --primary: #865316;
+  --primary-foreground: #ffffff;
+  --muted: #e0d7c9;
+  --muted-foreground: #63594c;
+  --accent: #f1dfbf;
+  --border: #bfb09b;
+  --destructive: #b63333;
+  --destructive-foreground: #ffffff;
+  --warning: #875400;
+  --success: #276b3b;
+  --favorite: #b63333;
+  --scrim: #000000;
+  --on-image: #ffffff;
+  --shadow-color: #000000;
+  --primary-hover: color-mix(in srgb, var(--primary) 85%, var(--foreground));
+  --chart-1: #865316;
+  --chart-2: #297b76;
+  --chart-3: #795891;
+  --chart-4: #46773a;
+  --chart-5: #a64c70;
+  --chart-6: #a36723;
+  --chart-7: #456aa7;
+  --chart-8: #b04d47;
+  --surface-shadow: 0 4px 24px #29392b06, 0 1px 2px #29392b05;
+}
+.dark {
+  color-scheme: dark;
+  --background: #201e1b;
+  --foreground: #f6f2eb;
+  --card: #27241f;
+  --popover: #302c26;
+  --primary: #e9b66c;
+  --primary-foreground: #241b0f;
+  --muted: #353027;
+  --muted-foreground: #bdb2a2;
+  --accent: #493a27;
+  --border: #51483b;
+  --destructive: #fa9391;
+  --destructive-foreground: #321410;
+  --warning: #e9b66c;
+  --success: #8dd9a2;
+  --favorite: #fa9391;
+  --chart-1: #e9b66c;
+  --chart-2: #53c8ff;
+  --chart-3: #b6a1ff;
+  --chart-4: #68e8ba;
+  --chart-5: #f29ada;
+  --chart-6: #ffc078;
+  --chart-7: #839fff;
+  --chart-8: #ff9a91;
+  --surface-shadow: 0 8px 32px #00000018, 0 1px 2px #00000015;
+}
+
+/* Keep the image's layout and accessible description without painting the
+   browser's filename/alt fallback while queued, downloading, or retrying.
+   Override hover-opacity utilities until the loader confirms success. */
+img[data-thumbnail-state='deferred'],
+img[data-thumbnail-state='loading'],
+img[data-thumbnail-state='retrying'] {
+  opacity: 0 !important;
+}

@@ -1,0 +1,9 @@
+**
+!workers/search-cpu/*.py
+!workers/search-cpu/requirements.txt
+!workers/search-cpu/models.json
+!workers/search-cpu/postgres-root.crt
+!workers/shared/*.py
+!workers/shared/requirements.txt
+
+!workers/search-cpu/requirements-linux-amd64.lock

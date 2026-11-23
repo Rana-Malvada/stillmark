@@ -1,0 +1,35 @@
+**/node_modules/
+# A linked dependency folder is a file to Git, so the pattern above does not match it.
+**/node_modules
+**/.next/
+**/dist/
+.env*
+!.env.example
+.deployment-backups/
+output/
+.release/
+*.log
+*.dump
+*.tsbuildinfo
+.DS_Store
+__pycache__/
+*.pyc
+**/.wrangler/
+**/*credentials*
+**/*password*
+*.pem
+*.key
+
+HANDOFF.md
+workers/face-cpu/models/
+
+# Private load-test credentials, fixtures and results
+.load-tests/
+
+# Local document rendering intermediates
+tmp/pdfs/
+
+# Generated test and coverage reports (keep tests and fixtures in Git)
+/test-results/
+/playwright-report/
+/coverage/

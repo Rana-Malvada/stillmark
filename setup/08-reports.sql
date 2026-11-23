@@ -1,0 +1,10 @@
+BEGIN;
+CREATE TABLE IF NOT EXISTS app_reports (
+ name TEXT PRIMARY KEY, payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+ refreshed_at TIMESTAMPTZ, attempted_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS storage_snapshots (
+ day DATE PRIMARY KEY, active_bytes BIGINT NOT NULL, trash_bytes BIGINT NOT NULL,
+ media_count INTEGER NOT NULL, sampled_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+COMMIT;

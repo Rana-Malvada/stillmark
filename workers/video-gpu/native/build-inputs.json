@@ -1,0 +1,39 @@
+{
+  "ubuntu": "sha256:9c7f200c07e3d4a03e7249d2c16bf66a51120fb876aa2242cf31451412543289",
+  "vendorPackage": "8.1.3-2-noble-amd64",
+  "vendorPackageSHA256": "22e3bbb6ca67f4d7badb16ae4a3c677940b97cb76eb273af7d70f6cb2b9b62bf",
+  "sourceURL": "https://codeload.github.com/jellyfin/jellyfin-ffmpeg/tar.gz/7250de8375a4959ac1c25c139ce9789fdac199fb",
+  "sourceSHA256": "7367430190d99cd756470e24d9cb5f64e1f60977d226c3cbcf41c79151e20ab9",
+  "architecture": "amd64",
+  "jobs": 16,
+  "patches": {
+    "cfhd-official.patch": "713a138e1abb4b28c4aa45f7c6a03ff88ef3a3386376e20e576a6b3ff6e6d557",
+    "flic-official.patch": "5def00581bad5c349a4c89687e45f5850a59669253d829b22050edae5d278f94",
+    "zlib-official.patch": "110ff14375733173d8aa54574473424fbd7dfe4b81f1ca34a759c6fe14b15b14",
+    "swscale-test-config.patch": "07678e52ea0ad6dbe1c8156d14bea1b7813a84247ff3571a8620ff5d0b9b4380"
+  },
+  "files": [
+    "build-inputs.json",
+    "build-native.sh",
+    "build-parallelism.py",
+    "build-tools.lock",
+    "cfhd-official.patch",
+    "compiler-packages.txt",
+    "fate-samples.json",
+    "fetch-inputs.py",
+    "ffmpeg-configure.txt",
+    "finalize-native.sh",
+    "flic-official.patch",
+    "native-cache.py",
+    "pinned-fetch.py",
+    "swscale-test-config.patch",
+    "vendor-dependencies.sh",
+    "vendor-dependency-lock.json",
+    "verify-built-libraries.py",
+    "zlib-official.patch"
+  ],
+  "vendorPatches": {
+    "count": 106,
+    "seriesSHA256": "1c44372c547386b15e6c968660f62b173382d2a7a182aaf4d53b82a95d17984c"
+  }
+}

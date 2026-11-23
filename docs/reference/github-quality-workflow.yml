@@ -1,0 +1,173 @@
+name: Quality gates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  # Weekly, so a newly published fix for an accepted advisory is noticed even when
+  # nothing is being released. Two different scans run: images built from current source
+  # (which pick up that day's operating-system updates), and the recorded inventories of
+  # the exact deployed image digests (scripts/release/deployed_images.py), which do not.
+  schedule:
+    - cron: '17 9 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quick-check:
+    name: Types, formatting, lint and unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: |
+          npm ci
+          npm --prefix cloudflare-gateway ci
+      - name: Type check
+        run: npm run typecheck
+      - name: Gateway type check
+        run: npm --prefix cloudflare-gateway run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Formatting
+        run: npm run format:check
+      - name: Documentation links
+        run: npm run docs:check
+      - name: Unit tests
+        run: npm test
+
+  release-check:
+    name: Release checks and browser regressions
+    runs-on: stillmark-ubuntu-24-16core
+    timeout-minutes: 240
+    permissions:
+      contents: read
+      actions: read
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            cloudflare-gateway/package-lock.json
+            workers/video-gpu/package-lock.json
+            scripts/load-test/cloud/package-lock.json
+      - name: Make room for isolated worker images
+        shell: bash
+        run: |
+          # Hosted runner only: these SDKs are unrelated to this repository.
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          available=$(df -Pk . | awk 'NR==2 {print $4}')
+          test "$available" -ge 30000000
+      - name: Install locked dependencies
+        run: |
+          npm ci
+          npm --prefix cloudflare-gateway ci
+          npm --prefix workers/video-gpu ci
+          npm --prefix scripts/load-test/cloud ci
+      - name: Install verified secret scanner
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 --max-time 120 \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz \
+            --output "$RUNNER_TEMP/gitleaks.tar.gz"
+          echo '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  '"$RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/quality-bin"
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP/quality-bin" gitleaks
+          echo "$RUNNER_TEMP/quality-bin" >> "$GITHUB_PATH"
+      - name: Install compatible PostgreSQL backup clients
+        shell: bash
+        run: |
+          if ! test -x /usr/lib/postgresql/17/bin/pg_dump; then
+            if ! grep -Rqs 'apt.postgresql.org/pub/repos/apt' /etc/apt/sources.list.d /etc/apt/sources.list; then
+              sudo install -d /usr/share/postgresql-common/pgdg
+              curl --fail --location --retry 3 --max-time 120 \
+                https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+                --output "$RUNNER_TEMP/pgdg.asc"
+              fingerprint=$(gpg --show-keys --with-colons "$RUNNER_TEMP/pgdg.asc" | awk -F: '$1 == "fpr" {print $10; exit}')
+              test "$fingerprint" = B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+              sudo cp "$RUNNER_TEMP/pgdg.asc" /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+              echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt noble-pgdg main' | sudo tee /etc/apt/sources.list.d/stillmark-pgdg.list
+            fi
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends postgresql-client-17
+          fi
+          echo "GALLERY_PG_BIN=/usr/lib/postgresql/17/bin" >> "$GITHUB_ENV"
+      - name: Prepare disposable database and browsers
+        run: |
+          # Pinned by digest; the local tag is what the database gate looks for.
+          docker pull postgres@sha256:223efeb196329b55b3b9a13db144956411dbc18e727e59f681c3e0aede6475cf
+          docker tag postgres@sha256:223efeb196329b55b3b9a13db144956411dbc18e727e59f681c3e0aede6475cf postgres:17
+          docker pull pgvector/pgvector:0.8.1-pg17-bookworm@sha256:3e8b3adfd27b5707128f60956f62a793c3c9326ea8cfaf0eab7adccb5d700b21
+          docker pull aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb
+          node node_modules/playwright-core/cli.js install --with-deps chromium webkit
+          node --input-type=module -e 'import { chromium } from "playwright-core"; console.log("CLIENT_TEST_BROWSER_PATH=" + chromium.executablePath())' >> "$GITHUB_ENV"
+      - name: Restore compatible verified native build cache
+        timeout-minutes: 15
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/release/native_cache_transfer.py --restore-latest
+      - name: Run the same checks required for release
+        run: python3 scripts/release/check.py
+      - name: Export authoritative native build cache
+        run: |
+          python3 scripts/release/native_cache_transfer.py --export-cache .release/native-cache-export
+          python3 scripts/release/native_cache_transfer.py --write-receipt .release/native-cache-export
+      - name: Preserve source-bound native cache
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: video-native-cache-${{ github.sha }}
+          path: .release/native-cache-export/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+      - name: Run WebKit browser regressions
+        env:
+          CLIENT_TEST_ENGINE: webkit
+        run: |
+          npm run test:client-recovery
+          node scripts/verification/frontend-recovery.mjs
+      - name: Preserve database and actual-image security evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: release-validation-results
+          path: |
+            .release/database-checks/*/result.json
+            .release/npm-advisories/**/result.json
+            .release/npm-advisories/**/summary.json
+            .release/npm-advisories/**/runtime.json
+            .release/npm-advisories/**/all-dependencies.json
+            .release/worker-images/**/result.json
+            .release/worker-images/**/summary.json
+            .release/worker-images/**/vulnerabilities.json
+            .release/worker-images/**/sbom.cdx.json
+            .release/worker-images/**/native-*.json
+            .release/worker-images/**/native-build-evidence.tar
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 14

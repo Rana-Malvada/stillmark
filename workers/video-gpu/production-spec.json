@@ -1,0 +1,70 @@
+{
+  "spec": {
+    "containers": [
+      {
+        "name": "worker",
+        "image": "/personal_media/app/photos_repo/video-worker:release-20261122-feefccc@sha256:f863fd352f8f5b9198e897e4b5db693fb46a7eeff769354a2b3448b99d753293",
+        "command": ["/usr/bin/timeout"],
+        "args": ["--kill-after=30s", "7500", "/usr/local/bin/node", "/worker/worker.mjs"],
+        "env": {
+          "NVIDIA_DRIVER_CAPABILITIES": "compute,video,utility",
+          "PG_HOST": "pg-instance.exampleorg-exampleacct.us-east-2.aws.postgres.snowflake.app",
+          "PG_DATABASE": "postgres",
+          "PG_USER": "personal_photos_video_worker",
+          "PG_SSL_ROOT_CERT": "/worker/postgres-root.crt",
+          "WORKER_CONCURRENCY": "2",
+          "WORKER_MAX_JOBS": "3",
+          "WORKER_MAX_SECONDS": "7200"
+        },
+        "secrets": [
+          {
+            "snowflakeSecret": "PERSONAL_MEDIA.APP.VIDEO_WORKER_PG_SECRET",
+            "directoryPath": "/secrets/PG_SECRET"
+          }
+        ],
+        "resources": {
+          "requests": {
+            "cpu": 4,
+            "memory": "8Gi",
+            "nvidia.com/gpu": 1
+          },
+          "limits": {
+            "cpu": 6,
+            "memory": "24Gi",
+            "nvidia.com/gpu": 1
+          }
+        },
+        "volumeMounts": [
+          {
+            "name": "originals",
+            "mountPath": "/input"
+          },
+          {
+            "name": "playback",
+            "mountPath": "/output"
+          }
+        ]
+      }
+    ],
+    "volumes": [
+      {
+        "name": "originals",
+        "source": "stage",
+        "uid": 65532,
+        "gid": 65532,
+        "stageConfig": {
+          "name": "@PERSONAL_MEDIA.RAW.PHOTO_FILES"
+        }
+      },
+      {
+        "name": "playback",
+        "source": "stage",
+        "uid": 65532,
+        "gid": 65532,
+        "stageConfig": {
+          "name": "@PERSONAL_MEDIA.RAW.DERIVED_FILES/display/prepared"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,1279 @@
+@import 'tailwindcss';
+@import '../public/theme.css' layer(base);
+@import '../public/viewer-menu.css';
+@import '../public/photo-grid.css';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--app-font-sans);
+  --font-display: var(--app-font-display);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--muted);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-favorite: var(--favorite);
+  --color-scrim: var(--scrim);
+  --color-on-image: var(--on-image);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.65rem;
+  --radius-xl: 0.85rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 28%, transparent);
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button,
+  a {
+    transition:
+      background-color 0.18s,
+      color 0.18s,
+      border-color 0.18s,
+      box-shadow 0.18s;
+  }
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+  }
+  input,
+  select,
+  textarea {
+    accent-color: var(--primary);
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted-foreground);
+    opacity: 0.75;
+  }
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  dialog {
+    box-shadow: 0 24px 100px color-mix(in srgb, var(--shadow-color) 40%, transparent);
+  }
+  dialog::backdrop {
+    background: color-mix(in srgb, var(--background) 79%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  progress {
+    appearance: none;
+    border: 0;
+    border-radius: 99px;
+    overflow: hidden;
+    background: var(--muted);
+  }
+  progress::-webkit-progress-bar {
+    background: var(--muted);
+    border-radius: 99px;
+  }
+  progress::-webkit-progress-value {
+    background: var(--primary);
+    border-radius: 99px;
+  }
+  progress::-moz-progress-bar {
+    background: var(--primary);
+    border-radius: 99px;
+  }
+  main table {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  main th {
+    background: var(--muted);
+    color: var(--muted-foreground);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.9rem 0.8rem;
+  }
+  main td {
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  main tbody tr:hover {
+    background: color-mix(in srgb, var(--muted) 55%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .owner-badge {
+    @apply mt-2 inline-flex max-w-full rounded border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-foreground;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .app-header {
+    /* Fixed navigation must remain anchored to the viewport. */
+    background: var(--background);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.9rem;
+    min-height: 2.75rem;
+    white-space: nowrap;
+    border-radius: 0.65rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+  }
+  .nav-link:hover {
+    color: var(--foreground);
+    background: var(--muted);
+  }
+  .nav-link[aria-current='page'] {
+    color: var(--foreground);
+    background: var(--muted);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent);
+    color: var(--primary);
+  }
+  .nav-tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border-radius: 0.65rem;
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+  }
+  .nav-tool:hover {
+    color: var(--foreground);
+    background: var(--muted);
+  }
+  .primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.65rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  .primary-button:hover {
+    filter: brightness(1.07);
+    box-shadow: 0 3px 12px color-mix(in srgb, var(--shadow-color) 8%, transparent);
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  .page-title {
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    line-height: 1.2;
+    font-weight: 650;
+  }
+  .page-intro {
+    padding-block: 2rem 1.5rem;
+  }
+  .surface-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: var(--surface-shadow);
+  }
+  .control {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.65rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .control:hover {
+    border-color: color-mix(in srgb, var(--primary) 50%, var(--border));
+  }
+  .gallery-card {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    overflow: hidden;
+    box-shadow: var(--surface-shadow);
+    transition:
+      transform 0.25s,
+      border-color 0.25s,
+      box-shadow 0.25s;
+  }
+  .gallery-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+    box-shadow:
+      0 12px 32px color-mix(in srgb, var(--shadow-color) 15%, transparent),
+      0 1px 3px color-mix(in srgb, var(--shadow-color) 8%, transparent);
+  }
+  .gallery-card img {
+    transition: transform 0.6s cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+  .gallery-card:hover img {
+    transform: scale(1.02);
+  }
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-divider::after {
+    content: '';
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--primary) 35%, var(--border)),
+      var(--border)
+    );
+    flex: 1;
+  }
+  .photo-toolbar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: 0.75rem;
+  }
+  .viewer-toolbar {
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--background) 90%, transparent);
+    backdrop-filter: blur(16px);
+  }
+  .viewer-toolbar button {
+    border-radius: 0.6rem;
+  }
+  .viewer-toolbar button:hover {
+    background: var(--accent);
+  }
+  .report-page > section {
+    scroll-margin-top: 7rem;
+  }
+  .report-page section.rounded-xl {
+    background: var(--card);
+    box-shadow: var(--surface-shadow);
+    border-radius: 0.75rem;
+  }
+}
+
+@layer components {
+  .report-page button.border,
+  .report-page select {
+    border-radius: 0.65rem;
+    background: var(--card);
+    font-size: 0.8125rem;
+    min-height: 2.75rem;
+  }
+  .report-page button.border:hover {
+    background: var(--muted);
+  }
+  .report-page > section > h2,
+  .report-page section > h3 {
+    letter-spacing: -0.015em;
+  }
+}
+@layer base {
+  progress.accent-destructive::-webkit-progress-value {
+    background: var(--destructive);
+  }
+  progress.accent-destructive::-moz-progress-bar {
+    background: var(--destructive);
+  }
+}
+
+@layer components {
+  .library-intro {
+    position: relative;
+    isolation: isolate;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.25rem;
+  }
+  .library-intro::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--primary) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--primary) 5%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 48px 48px;
+    mask-image: linear-gradient(90deg, transparent 30%, #000);
+  }
+  .library-intro::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 2rem;
+    width: 5rem;
+    height: 2px;
+    background: var(--primary);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 40%, transparent);
+  }
+}
+
+@media (max-width: 639px) {
+  .app-header .nav-tool {
+    min-width: 2.25rem;
+  }
+  .app-header .nav-link {
+    padding-inline: 0.5rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Only invert the OSM fallback; preserve CARTO Positron colors. */
+.dark .travel-map .leaflet-tile.osm-basemap {
+  filter: invert(1) hue-rotate(180deg) saturate(0.45) brightness(0.8);
+}
+.travel-map {
+  background: var(--background);
+}
+
+/* Give feedback without moving photos beneath the pointer or selection controls. */
+@layer components {
+  .photo-card {
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .photo-card:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .photo-card:hover {
+      border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
+      box-shadow:
+        0 8px 24px color-mix(in srgb, var(--shadow-color) 15%, transparent),
+        0 0 16px color-mix(in srgb, var(--primary) 8%, transparent);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .photo-card {
+      transition: none;
+    }
+  }
+}
+
+/* Shared compact page headers and wrapping action rows. */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+.page-header .eyebrow {
+  margin-bottom: 0.375rem;
+}
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.album-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.album-tools > section:has(.surface-panel) {
+  flex-basis: 100%;
+}
+
+.travel-map .travel-count {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--primary-foreground);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0;
+  pointer-events: none;
+}
+.travel-map .travel-count::before {
+  display: none;
+}
+
+@layer components {
+  .album-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.6rem 0.4rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .album-action:disabled {
+    opacity: 0.5;
+  }
+  @media (max-width: 380px) {
+    .album-action {
+      font-size: 0.8125rem;
+      gap: 0.2rem;
+    }
+    .album-action svg {
+      width: 13px;
+      height: 13px;
+    }
+  }
+}
+
+@layer components {
+  .album-dropdown {
+    position: absolute;
+    top: 100%;
+    z-index: 40;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--card);
+    box-shadow: 0 16px 40px color-mix(in srgb, var(--shadow-color) 40%, transparent);
+    max-height: 70dvh;
+    overflow-y: auto;
+  }
+  .album-dropdown[hidden] {
+    display: none;
+  }
+}
+
+/* Readable touch inputs prevent Safari from zooming the page on focus. */
+@media (any-pointer: coarse) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']),
+  select,
+  textarea {
+    font-size: max(16px, 1rem) !important;
+  }
+  button,
+  a {
+    touch-action: manipulation;
+  }
+  .album-dropdown input,
+  .album-dropdown select,
+  .album-dropdown textarea {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .album-dropdown fieldset,
+  .album-dropdown label {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* Align with the second toolbar button; clamp to the toolbar's right edge. */
+.album-filter-dropdown {
+  width: min(30rem, 100%);
+  left: min(calc(25% + 0.125rem), max(0px, calc(100% - 30rem)));
+}
+
+@layer components {
+  .album-more-dropdown {
+    padding: 0.375rem;
+  }
+  .album-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.375rem;
+    background: transparent;
+    font-size: 0.875rem;
+    text-align: left;
+  }
+  .album-menu-item:hover,
+  .album-menu-item:focus-visible {
+    background: var(--accent);
+    color: var(--primary);
+  }
+  .album-menu-item:disabled {
+    opacity: 0.45;
+  }
+  .album-menu-item svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+  .album-settings-dialog {
+    margin: auto;
+    width: min(30rem, calc(100% - 2rem));
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.875rem;
+    background: var(--card);
+    color: var(--card-foreground);
+  }
+  .album-settings-dialog > * + * {
+    margin-top: 1rem;
+  }
+  .album-settings-dialog::backdrop {
+    background: color-mix(in srgb, var(--shadow-color) 60%, transparent);
+  }
+}
+
+/* Album access stays attached to the More menu, including on narrow screens. */
+.album-more-dropdown:has(.album-access-panel) {
+  width: min(26rem, 100%);
+}
+.album-access-panel {
+  margin: 0.25rem 0.5rem 0.5rem;
+  padding: 0.75rem 0.25rem 0.25rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+.album-access-panel > * + * {
+  margin-top: 0.75rem;
+}
+.album-access-panel .control,
+.album-access-panel .primary-button {
+  min-height: 36px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.8125rem;
+}
+.album-access-panel input {
+  flex: 1 1 10rem;
+  width: 100%;
+}
+
+/* Reclaim vertical image space on phones and tablets held in landscape. */
+.photo-viewer-stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+@media (orientation: landscape) and (pointer: coarse) {
+  .photo-viewer-media {
+    margin-left: max(64px, calc(env(safe-area-inset-left) + 56px));
+    margin-right: max(64px, calc(env(safe-area-inset-right) + 56px));
+  }
+  .photo-viewer-stage > .photo-viewer-navigation {
+    position: absolute;
+    inset: 0;
+    justify-content: space-between;
+    padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left)) !important;
+    pointer-events: none;
+  }
+  .photo-viewer-navigation > button {
+    pointer-events: auto;
+  }
+}
+
+/* Dialogs keep their controls reachable while only their content scrolls. */
+.app-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.dialog-footer {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.upload-actions > button,
+.upload-actions > a,
+.upload-actions > label {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+}
+.photo-details-sheet {
+  right: 0;
+  top: 4rem;
+  bottom: 0;
+  width: 24rem;
+  max-width: 100%;
+  padding: 0 1rem 1rem;
+}
+@media (max-width: 639px) {
+  .photo-details-sheet {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-height: 42dvh;
+    border-radius: 1rem 1rem 0 0;
+    padding: 0 1rem max(1rem, env(safe-area-inset-bottom));
+    overscroll-behavior: contain;
+  }
+  .photo-details-sheet.is-expanded {
+    max-height: 78dvh;
+  }
+}
+.app-dialog {
+  position: fixed;
+  top: var(--dialog-center, 50%);
+  bottom: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  transform: translateY(-50%);
+  max-height: min(85dvh, var(--dialog-visible-height, 85dvh));
+}
+
+.photo-location-marker span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid var(--primary-foreground);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--shadow-color) 33%, transparent);
+}
+
+.leaflet-container .leaflet-bar a {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.leaflet-container .leaflet-bar a:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+.leaflet-container .leaflet-bar a.leaflet-disabled {
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+.leaflet-container .leaflet-control-attribution {
+  background: color-mix(in srgb, var(--card) 94%, transparent);
+  color: var(--muted-foreground);
+}
+.leaflet-container .leaflet-control-attribution a {
+  color: var(--foreground);
+}
+
+/* Selection actions share one type scale, including Safari's native select. */
+.photo-selection-actions .album-menu-item,
+.photo-selection-actions .control {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: left;
+}
+
+/* Upload completion must not resize/recenter the open dialog. */
+.upload-dialog {
+  height: min(85dvh, var(--dialog-visible-height, 85dvh));
+}
+
+.people-change-notice {
+  position: fixed;
+  inset-inline: 1rem;
+  width: min(36rem, calc(100% - 2rem));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--card);
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--shadow-color) 18%, transparent);
+}
+.people-change-notice {
+  z-index: 45;
+  top: calc(var(--app-header-offset, 4rem) + 0.75rem);
+  flex-wrap: wrap;
+}
+
+/* One reserved row; the anchored action panel never changes grid geometry. */
+.selection-toolbar {
+  position: sticky;
+  top: var(--selection-header-height, 0px);
+  z-index: 30;
+  margin-bottom: 0.375rem;
+  padding: 0.375rem 0;
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  backdrop-filter: blur(20px);
+}
+.selection-toolbar-row,
+.selection-summary-row,
+.people-selection-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  white-space: nowrap;
+}
+.selection-toolbar-row {
+  justify-content: space-between;
+}
+.selection-toolbar-summary {
+  flex: 1;
+  min-width: 0;
+}
+.selection-count,
+.people-selection-summary > span {
+  min-width: 4.5rem;
+  margin-right: auto;
+}
+.selection-toolbar .selection-mode-button {
+  width: auto;
+  min-width: 56px;
+}
+.selection-toolbar .control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+.selection-toolbar-row .control {
+  flex-shrink: 0;
+}
+.selection-actions-panel {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 12px;
+  width: min(24rem, calc(100% - 24px));
+  max-height: calc(100dvh - var(--selection-header-height, 0px) - 6rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--card);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--shadow-color) 25%, transparent);
+}
+.selection-actions-panel[hidden] {
+  display: none;
+}
+.selection-photo-commands,
+.people-selection-tools,
+.people-selection-commands {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  align-items: start;
+}
+.selection-photo-commands > .control,
+.selection-photo-commands > div > .control,
+.selection-popover > summary,
+.people-selection-commands .control {
+  width: 100%;
+  white-space: normal;
+}
+.people-selection-person,
+.people-selection-commands,
+.selection-popover {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+/* Nested choices expand inside the floating panel, not over or below the grid. */
+.selection-actions-panel .person-options {
+  position: static;
+  width: 100%;
+  max-width: 100%;
+}
+.selection-popover > summary {
+  cursor: pointer;
+  list-style: none;
+}
+.selection-popover > summary::-webkit-details-marker {
+  display: none;
+}
+.selection-popover-content {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.selection-feedback {
+  padding-top: 0.75rem;
+}
+@media (max-width: 639px) {
+  .selection-toolbar .control {
+    padding-inline: 0.6rem;
+    font-size: 0.8125rem;
+  }
+  .selection-count,
+  .people-selection-summary > span {
+    font-size: 0.75rem;
+  }
+  .people-selection-person {
+    width: 100%;
+  }
+}
+
+/* Filters use the same anchored surface as selection actions. */
+.gallery-filter-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: end;
+  min-width: 0;
+}
+.gallery-filter-fields label,
+.gallery-filter-fields select {
+  min-width: 0;
+  width: 100%;
+}
+.gallery-filter-fields select {
+  margin-top: 0.375rem;
+}
+.gallery-filter-panel .control {
+  display: block;
+  width: 100%;
+}
+.gallery-filter-fields input[type='checkbox'] {
+  width: auto;
+}
+
+.person-detail-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  flex: 1;
+  min-width: 0;
+}
+.person-detail-controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0;
+  padding-block: 0.75rem;
+}
+.person-detail-controls > .control,
+.person-actions > .control {
+  min-height: 44px;
+  font-size: 0.875rem;
+}
+.person-actions {
+  margin-left: auto;
+}
+.person-actions-panel {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 0.375rem);
+  right: 0;
+  width: min(24rem, 100%);
+  max-height: 60dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--card);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--shadow-color) 25%, transparent);
+}
+.person-actions-panel[hidden] {
+  display: none;
+}
+.person-action-list {
+  display: grid;
+  gap: 0.25rem;
+}
+.person-action-list > button {
+  min-height: 44px;
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: 0.375rem;
+  text-align: left;
+  font-size: 0.875rem;
+}
+.person-action-list > button:hover,
+.person-action-list > button:focus-visible {
+  background: var(--muted);
+}
+.person-action-list > button:disabled {
+  opacity: 0.5;
+}
+
+/* Media-first navigation: one mobile row, with all destinations in its menu. */
+.app-header-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 72px;
+  padding-inline: 2rem;
+}
+.mobile-navigation-label,
+.mobile-navigation-actions,
+.navigation-section-icon {
+  display: none;
+}
+.desktop-navigation-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.person-detail-heading .page-title {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+}
+.person-back,
+.person-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+.selection-toolbar-row .control {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+}
+.person-detail .selection-toolbar {
+  margin-bottom: 0;
+}
+.person-readonly-photos {
+  display: inline-flex;
+  margin-block: 0.25rem 0.75rem;
+}
+@media (max-width: 639px) {
+  .app-header-row {
+    min-height: 56px;
+    padding-inline: 0.5rem;
+    gap: 0.25rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .app-brand-wordmark {
+    display: none;
+  }
+  .app-header-tools {
+    justify-content: flex-end;
+  }
+  .mobile-navigation-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .mobile-navigation-label > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mobile-navigation-label > svg {
+    flex-shrink: 0;
+  }
+  .mobile-navigation-actions {
+    display: block;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+  .mobile-navigation-actions .nav-link {
+    justify-content: flex-start;
+  }
+  .navigation-section-icon {
+    display: block;
+    flex-shrink: 0;
+  }
+  .app-header .app-destinations {
+    padding: 0;
+  }
+  .app-destinations > .relative {
+    min-width: 0;
+    max-width: 100%;
+    flex-shrink: 1;
+  }
+  .app-header .header-upload {
+    background: transparent;
+    color: var(--primary);
+    box-shadow: none;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .desktop-navigation-label {
+    display: none;
+  }
+  .app-header .navigation-menu-toggle {
+    max-width: 100%;
+    min-height: 44px;
+    justify-content: flex-start;
+    padding: 0 6px;
+    font-size: 15px;
+    gap: 6px;
+  }
+  .app-header .nav-tool {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .person-detail-controls {
+    gap: 0.5rem;
+    padding-block: 0.5rem;
+  }
+  .person-detail-heading {
+    gap: 0.5rem;
+  }
+  .person-detail-heading p {
+    font-size: 0.75rem;
+  }
+  .person-detail .page-title {
+    font-size: 1.375rem;
+  }
+}
+
+/* App shell and media controls share one compact, stable navigation rhythm. */
+.app-workspace {
+  min-width: 0;
+}
+.media-workspace,
+.person-detail {
+  min-width: 0;
+}
+.media-workspace > .selection-toolbar,
+.person-detail > .selection-toolbar {
+  margin: 0;
+  padding: 8px 12px;
+  min-height: 60px;
+  border-bottom: 1px solid var(--border);
+}
+.media-context-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.media-context-title h1,
+.media-context-title .page-title {
+  font-size: 1.125rem;
+  line-height: 1.3;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+.media-context-title > a,
+.media-context-title > button {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+}
+.media-context-title .person-avatar {
+  width: 32px;
+  height: 32px;
+}
+.media-context-title .person-detail-heading {
+  gap: 8px;
+}
+.media-context-meta {
+  min-height: 38px;
+  padding: 4px 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.media-context-meta > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.media-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  flex-shrink: 0;
+  padding: 4px;
+}
+.selection-toolbar .compact-add {
+  padding: 8px 12px;
+  min-height: 44px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.selection-toolbar .media-more {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+.selection-toolbar .person-actions {
+  margin-left: 0;
+}
+.selection-actions-panel .control {
+  justify-content: flex-start;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+}
+.selection-actions-panel .control:hover {
+  background: var(--muted);
+}
+.selection-actions-panel select.control,
+.selection-actions-panel input.control {
+  border: 1px solid var(--border);
+  background: var(--background);
+}
+.person-detail > .person-detail-controls {
+  margin: 0;
+  padding: 8px 12px;
+  min-height: 60px;
+}
+.person-detail > .relative {
+  padding-inline: 12px;
+}
+@media (min-width: 1024px) {
+  .app-header-row {
+    min-height: 64px;
+    grid-template-columns: 1fr auto;
+    padding-inline: 24px;
+  }
+  .app-header .app-destinations {
+    position: fixed;
+    inset: 64px auto 0 0;
+    width: 184px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto;
+    background: var(--background);
+    border-right: 1px solid var(--border);
+  }
+  .app-destinations > a {
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+  .app-workspace {
+    margin-left: 184px;
+  }
+  .media-workspace > .selection-toolbar,
+  .person-detail > .selection-toolbar {
+    padding-inline: 24px;
+  }
+  .media-context-meta {
+    padding-inline: 24px;
+  }
+}
+@media (max-width: 639px) {
+  .app-header[data-detail] {
+    display: none;
+  }
+  .media-workspace > .selection-toolbar,
+  .person-detail > .selection-toolbar {
+    padding-inline: 8px;
+  }
+  .selection-summary-row,
+  .people-selection-summary,
+  .selection-toolbar-row {
+    gap: 4px;
+  }
+  .media-context-title {
+    gap: 4px;
+  }
+  .media-context-title .person-avatar {
+    display: none;
+  }
+  .media-context-title .person-detail-heading {
+    gap: 0;
+  }
+  .selection-actions-panel {
+    right: 8px;
+    width: min(24rem, calc(100% - 16px));
+  }
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1em);
+  }
+}
+
+@media (max-width: 639px) {
+  .selection-toolbar .compact-add {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+  .selection-toolbar .compact-add > span {
+    display: none;
+  }
+}
+
+/* Keep the Sort trigger reachable while its anchored filter panel is open. */
+.media-workspace .gallery-filter-panel {
+  top: calc(100% + 38px);
+}

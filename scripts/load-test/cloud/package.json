@@ -1,0 +1,8 @@
+{
+  "name": "stillmark-isolated-load-generator",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "undici": "7.30.1"
+  }
+}

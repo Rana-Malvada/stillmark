@@ -1,0 +1,5 @@
+[tool.black]
+line-length = 100
+target-version = ['py39']
+include = '\.py$'
+force-exclude = '/(node_modules|\.next|\.release|\.deployment-backups|output|setup)/'

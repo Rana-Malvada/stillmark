@@ -1,0 +1,9 @@
+# Storage cleanup claims and publication fencing
+
+Compatibility: additive cleanup lease columns, retired-path registry and guarded publication/reservation functions. Existing live references are not retired. Apply before the new cleanup worker. Drain old cleanup workers before starting new workers: the old implementation does not honor claim tokens. Publication triggers remain compatible with valid old writers, but intentionally reject publication to a retired immutable path.
+
+Verification: `tests/stage-cleanup-claims.test.ts` covers live originals, retained trash, face crops, playback renditions, active uploads, late publication, lease takeover and runtime-role denial. `tests/database.test.ts` also runs the migration against existing deletion/upload regressions. Confirm REMOVE executes after the claim transaction closes and acknowledgments require the same token. A failed REMOVE must retain its intent and tombstone.
+
+Rollback: stop cleanup and drain storage calls before restoring the previous cleanup implementation. Preserve all retired-path tombstones and publication triggers; a delayed REMOVE may still complete. Do not permit path reuse or delete tombstones as part of rollback. Leave added columns/functions installed. Standard backup/restore verification is required before application. No automatic registry pruning is included.
+
+Real-connection check: after `docker pull postgres:17`, run `npm run test:cleanup-postgres`. The disposable loopback-only database uses synthetic paths and never calls REMOVE or another storage API. The check exercises publication-first and cleanup-first races, two concurrent disjoint claim batches, released row locks after claim return, lease takeover and stale acknowledgment rejection. The container is removed afterward. This exercises the migration with a minimal schema; it does not replace full-schema rollout checks or production measurement.

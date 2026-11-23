@@ -1,0 +1,94 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "{{GATEWAY_WORKER_NAME}}",
+  "account_id": "{{CLOUDFLARE_ACCOUNT_ID}}",
+  "main": "worker.mjs",
+  "assets": { "directory": "../public", "binding": "BRANDING_ASSETS", "run_worker_first": true },
+  "compatibility_date": "2026-09-17",
+  // Ingress execution avoids measured storage-header stalls at forced remote ORD.
+  "placement": { "mode": "off" },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "{{GATEWAY_HOST}}",
+      "custom_domain": true,
+    },
+  ],
+  "vars": {
+    "GATEWAY_ORIGIN": "{{GATEWAY_ORIGIN}}",
+    "CUSTOMER_ACCOUNTS_ENABLED": "true",
+    "PUBLIC_SIGNUP_ENABLED": "true",
+    "AUTH0_DOMAIN": "{{AUTH0_DOMAIN}}",
+    "AUTH0_CLIENT_ID": "{{AUTH0_CLIENT_ID}}",
+    "AUTH0_LOG_POLL_ENABLED": "true",
+    "AUTH0_LOG_TENANT_DOMAIN": "{{AUTH0_MANAGEMENT_DOMAIN}}",
+    "GALLERY_ENABLED": "true",
+    "UPLOAD_SERVICE_ENABLED": "true",
+    "UPLOAD_SERVICE_DYNAMIC": "true",
+    "UPLOAD_SERVICE_CANARY": "false",
+    "UPLOAD_SERVICE_ORIGIN": "https://ec73vq-exampleorg-exampleacct.snowflakecomputing.app",
+    "PREVIEW_BATCH_ENABLED": "true",
+    "MEDIA_DELIVERY_MODE": "enabled",
+    "MEDIA_GRANTS_ENABLED": "true",
+    "MEDIA_GRANT_CACHE_ENABLED": "true",
+    "SESSION_REVOCATION_BACKEND": "{{PG_DATABASE}}",
+    "PG_STORAGE_WARNING_BYTES": "24000000000",
+    "GATEWAY_DIAGNOSTICS": "enabled",
+  },
+  // Per-client ceilings for unauthenticated entry points; see rate-limit.mjs.
+  "ratelimits": [
+    {
+      "name": "AUTH_RATE_LIMIT",
+      "namespace_id": "1001",
+      "simple": { "limit": 30, "period": 60 },
+    },
+    {
+      "name": "SHARE_RATE_LIMIT",
+      "namespace_id": "1002",
+      "simple": { "limit": 600, "period": 60 },
+    },
+  ],
+  "observability": {
+    "enabled": false,
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "GATEWAY_TOKENS",
+        "class_name": "GatewayTokenStore",
+      },
+      {
+        "name": "REVOKED_SESSIONS",
+        "class_name": "RevokedSession",
+      },
+      {
+        "name": "EMAIL_ALERTS",
+        "class_name": "EmailAlerts",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "token-renewal-v1",
+      "new_sqlite_classes": ["GatewayTokenStore"],
+    },
+    {
+      "tag": "session-revocation-v1",
+      "new_sqlite_classes": ["RevokedSession"],
+    },
+    {
+      "tag": "email-alerts-v1",
+      "new_sqlite_classes": ["EmailAlerts"],
+    },
+  ],
+  "triggers": {
+    "crons": ["17 * * * *", "*/5 * * * *"],
+  },
+  "analytics_engine_datasets": [
+    {
+      "binding": "GATEWAY_METRICS",
+      "dataset": "{{METRICS_DATASET}}",
+    },
+  ],
+}

@@ -1,0 +1,170 @@
+version: 2
+
+name: {{APP_SERVICE}}
+# Keep the existing build repository/package; the replacement has its own runtime role.
+artifact_repo: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_PERSONAL_PHOTOS_REPO}}
+package_name: {{PACKAGE_NAME}}
+database: {{DATABASE}}
+schema: {{APP_SCHEMA}}
+query_warehouse: {{WAREHOUSE}}
+# Only the ephemeral build job receives GitHub egress.
+build_eai: {{RESOURCE_PERSONAL_PHOTOS_BUILD_EAI}}
+# Service-user builds must not depend on a human user's personal database.
+build_job_location: {{DATABASE}}.{{APP_SCHEMA}}
+code_stage: {{DATABASE}}.{{APP_SCHEMA}}.{{APP_SERVICE}}_AUTOMATION_CODE
+
+external_access_integrations:
+  - {{RESOURCE_PERSONAL_PHOTOS_EAI}}
+  - {{RESOURCE_PERSONAL_PHOTOS_AUTH0_EAI}}
+  - {{RESOURCE_PERSONAL_PHOTOS_TRAVEL_EAI}}
+  # Photo descriptions through OpenAI; only api.openai.com (docs/AI-DESCRIPTIONS.md).
+  - {{RESOURCE_PERSONAL_PHOTOS_OPENAI_EAI}}
+
+secrets:
+  - name: MEDIA_GRANT_SIGNING
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.MEDIA_GRANT_SIGNING
+  - name: PG_UPLOAD_QUEUE
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.PG_UPLOAD_QUEUE_SECRET
+  - name: CARTO_BASEMAPS
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_CARTO_BASEMAPS}}
+  - name: PG_MAINTENANCE
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_PG_MAINTENANCE_SECRET}}
+  - name: GATEWAY_SIGNING
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_GATEWAY_SIGNING}}
+  - name: AUTH0_MANAGEMENT
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_AUTH0_MANAGEMENT}}
+  - name: OPENAI_API
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_OPENAI_API}}
+  - name: PG_SECRET
+    secret: {{DATABASE}}.{{APP_SCHEMA}}.{{RESOURCE_PG_APP_SECRET}}
+
+environment_variables:
+  - name: PREVIEW_BATCH_ENABLED
+    value: 'true'
+  - name: MEDIA_SIGNING_BATCH_ENABLED
+    value: 'true'
+  - name: MEDIA_GRANTS_ENABLED
+    value: 'true'
+  - name: PG_FLEET_BUDGET_REQUIRED
+    value: 'true'
+  - name: PG_FLEET_CONNECTION_BUDGET
+    value: '400'
+  - name: PG_FLEET_APP_PROCESSES
+    value: '2'
+  - name: PG_FLEET_UPLOAD_PROCESSES
+    value: '2'
+  - name: PG_FLEET_OTHER_CONNECTIONS
+    value: '100'
+  - name: TRAVEL_SUMMARIES_ENABLED
+    value: 'true'
+  # SDK diagnostics must not open an extra connection ahead of the first query.
+  - name: SF_TELEMETRY_DISABLE_CONNECTION_SHAPE
+    value: 'true'
+  - name: UPLOAD_PROCESSING_QUEUE_ENABLED
+    value: 'true'
+  - name: UPLOAD_COMPLETIONS_PER_INSTANCE
+    value: '2'
+  - name: PHOTO_AI_TRANSPORT
+    value: 'rest'
+  # OpenAI first; Cortex whenever OpenAI cannot take a request. Remove to use Cortex only.
+  - name: PHOTO_AI_PROVIDER
+    value: 'openai'
+  - name: PHOTO_AI_LEASED_ADMISSION
+    value: 'true'
+  - name: PHOTO_AI_FLEET_CONCURRENCY
+    value: '8'
+  - name: PHOTO_AI_LOCAL_WORKERS
+    value: '8'
+  # Rotate eligible owners without reducing a lone owner's eight active slots.
+  - name: PHOTO_AI_TENANT_CONCURRENCY
+    value: '8'
+  - name: PHOTO_AI_MAX_CLAIMS_PER_HOUR
+    value: '100000'
+  - name: PHOTO_AI_TENANT_MAX_CLAIMS_PER_HOUR
+    value: '100000'
+  - name: AUTH0_GATEWAY_CLIENT_ID
+    value: '{{AUTH0_CLIENT_ID}}'
+  - name: GATEWAY_AUTH_ENABLED
+    value: 'true'
+  - name: GATEWAY_ORIGIN
+    value: '{{GATEWAY_ORIGIN}}'
+  - name: AUTH0_GALLERY_CLIENT_ID
+    value: '{{AUTH0_GALLERY_CLIENT_ID}}'
+  - name: AUTH0_MANAGEMENT_ENABLED
+    value: 'true'
+  - name: AUTH0_DOMAIN
+    value: '{{AUTH0_MANAGEMENT_DOMAIN}}'
+  - name: AUTH0_DATABASE_CONNECTION
+    value: 'Username-Password-Authentication'
+  - name: APP_ORIGIN
+    value: '{{APP_ORIGIN}}'
+  - name: CUSTOMER_ACCOUNTS_ENABLED
+    value: 'true'
+  - name: APP_PERMISSION_AUTHORITY
+    value: 'postgres'
+  - name: PG_BATCH_TRANSACTION_START_ENABLED
+    value: 'true'
+  - name: PG_MEDIA_LOOKUP_FUNCTION_ENABLED
+    value: 'true'
+  - name: PG_SSL_ROOT_CERT
+    value: 'certs/postgres-root.crt'
+  - name: VIDEO_STREAMING_ENABLED
+    value: 'true'
+  - name: VIDEO_CONVERSION_ENABLED
+    value: 'false'
+  - name: UPLOAD_PROCESSING_WORKER_ENABLED
+    value: 'false'
+  - name: UPLOAD_ROUTING_MANAGED
+    value: 'true'
+  - name: BACKGROUND_JOBS_ENABLED
+    value: 'true'
+  - name: AUTOMATIC_MEDIA_PROCESSING_ENABLED
+    value: 'true'
+  - name: PG_HOST
+    value: '{{PG_HOST}}'
+  - name: PG_PORT
+    value: '5432'
+  - name: PG_DATABASE
+    value: '{{PG_DATABASE}}'
+  - name: PG_USER
+    value: '{{PG_USER}}'
+  - name: PG_SSL
+    value: 'true'
+
+install:
+  commands:
+    # CPU inference uses the binaries bundled in npm; do not download CUDA packages.
+    - ['env', 'ONNXRUNTIME_NODE_INSTALL=skip', 'npm', 'ci', '--include=dev']
+
+build:
+  commands:
+    - ['npm', 'run', 'build']
+    - ['cp', '-r', '.next/static', '.next/standalone/.next/static']
+    - ['cp', '-r', 'public/.', '.next/standalone/public']
+    - ['cp', '-r', 'certs', '.next/standalone/certs']
+    - ['node', 'scripts/copy-video-tools.cjs']
+    - ['rm', '-rf', 'node_modules']
+
+run:
+  command: ['node', '.next/standalone/server.js']
+
+profile:
+  label: 'Stillmark'
+  description: 'Private photo gallery and management platform'
+
+ignore:
+  - workers
+  - tests
+  - cloudflare-gateway
+  - .deployment-backups
+  - .load-tests
+  - node_modules
+  - .env*
+  - __pycache__
+  - '*.pyc'
+  - .next
+  - .git
+  - snowflake.log
+  - app.yml.builder
+  - output
+  - .release

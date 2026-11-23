@@ -1,0 +1,52 @@
+{
+  "spec": {
+    "containers": [
+      {
+        "name": "worker",
+        "image": "/personal_media/app/photos_repo/face-worker:release-20261122-370041c@sha256:677da229a3012393d989de3663c0889f4503fbb6581e4694de7090f6ee1b90c2",
+        "command": ["/usr/bin/timeout"],
+        "args": ["--kill-after=30s", "7500", "python", "/worker/worker.py"],
+        "env": {
+          "PG_HOST": "pg-instance.exampleorg-exampleacct.us-east-2.aws.postgres.snowflake.app",
+          "PG_DATABASE": "postgres",
+          "PG_USER": "personal_photos_face_worker",
+          "PG_SSL_ROOT_CERT": "/worker/postgres-root.crt",
+          "WORKER_BATCH": "16",
+          "WORKER_PARALLEL": "6",
+          "WORKER_MAX_SECONDS": "7200",
+          "WORKER_RUN_ID": "RUN_ID"
+        },
+        "secrets": [
+          {
+            "snowflakeSecret": "PERSONAL_MEDIA.APP.FACE_WORKER_PG_SECRET",
+            "directoryPath": "/secrets/PG_SECRET"
+          }
+        ],
+        "resources": {
+          "requests": { "cpu": 6, "memory": "23Gi" },
+          "limits": { "cpu": 6, "memory": "23Gi" }
+        },
+        "volumeMounts": [
+          { "name": "originals", "mountPath": "/input" },
+          { "name": "faces", "mountPath": "/output" }
+        ]
+      }
+    ],
+    "volumes": [
+      {
+        "name": "originals",
+        "source": "stage",
+        "uid": 10001,
+        "gid": 10001,
+        "stageConfig": { "name": "@PERSONAL_MEDIA.RAW.PHOTO_FILES" }
+      },
+      {
+        "name": "faces",
+        "source": "stage",
+        "uid": 10001,
+        "gid": 10001,
+        "stageConfig": { "name": "@PERSONAL_MEDIA.RAW.DERIVED_FILES/faces" }
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+# Proposes dependency updates as pull requests. Every proposal runs the same two
+# required checks as any other change, including the full release gate, before it can
+# merge; none is skipped for automated authors. To keep that affordable, proposals are
+# monthly and at most one is open per ecosystem. Changes to worker image inputs also
+# require the advisory reviews to be re-confirmed (see docs/SAFE-RELEASES.md).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /cloudflare-gateway
+      - /workers/video-gpu
+      - /scripts/load-test/cloud
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 1
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 1
+  - package-ecosystem: docker
+    directories:
+      - /workers/upload-cpu
+      - /workers/face-cpu
+      - /workers/search-cpu
+      - /workers/video-gpu
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 1
+  - package-ecosystem: pip
+    directories:
+      - /
+      - /workers/shared
+      - /workers/upload-cpu
+      - /workers/face-cpu
+      - /workers/search-cpu
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 1

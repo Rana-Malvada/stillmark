@@ -1,0 +1,33 @@
+{
+  "email": {
+    "signup": {
+      "status": "required",
+      "verification": {
+        "active": true
+      }
+    },
+    "unique": true,
+    "identifier": {
+      "active": true
+    },
+    "profile_required": true,
+    "verification_method": "link"
+  },
+  "username": {
+    "signup": {
+      "status": "required"
+    },
+    "identifier": {
+      "active": false
+    },
+    "validation": {
+      "max_length": 32,
+      "min_length": 1,
+      "allowed_types": {
+        "email": false,
+        "phone_number": false
+      }
+    },
+    "profile_required": false
+  }
+}

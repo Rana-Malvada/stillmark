@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "vendorPackage": {
+    "url": "https://github.com/jellyfin/jellyfin-ffmpeg/releases/download/v8.1.3-2/jellyfin-ffmpeg8_8.1.3-2-noble_amd64.deb",
+    "sha256": "22e3bbb6ca67f4d7badb16ae4a3c677940b97cb76eb273af7d70f6cb2b9b62bf"
+  },
+  "ffmpegSource": {
+    "url": "https://codeload.github.com/jellyfin/jellyfin-ffmpeg/tar.gz/7250de8375a4959ac1c25c139ce9789fdac199fb",
+    "sha256": "7367430190d99cd756470e24d9cb5f64e1f60977d226c3cbcf41c79151e20ab9",
+    "commit": "7250de8375a4959ac1c25c139ce9789fdac199fb"
+  },
+  "dependencies": [
+    {
+      "url": "https://github.com/madler/zlib.git",
+      "ref": "v1.3.2",
+      "commit": "da607da739fa6047df13e66a2af6b8bec7c2a498"
+    },
+    {
+      "url": "https://github.com/fribidi/fribidi.git",
+      "ref": "v1.0.16",
+      "commit": "68162babff4f39c4e2dc164a5e825af93bda9983"
+    },
+    {
+      "url": "https://github.com/freetype/freetype.git",
+      "ref": "VER-2-14-3",
+      "commit": "0a0221a1347e2f1e07c395263540026e9a0aa7c7"
+    },
+    {
+      "url": "https://github.com/GNOME/libxml2.git",
+      "ref": "v2.15.4",
+      "commit": "96498992efa48d52b0e8b83058bd88dbdaf153c1"
+    },
+    {
+      "url": "https://github.com/harfbuzz/harfbuzz.git",
+      "ref": "14.2.1",
+      "commit": "56feae4035bdd48f62ba2b8d8c16232d4d89b3a4"
+    },
+    {
+      "url": "https://github.com/adah1972/libunibreak.git",
+      "ref": "libunibreak_7_0",
+      "commit": "3ce4bfa3129ff3738046a44a6db533d2ce25af2b"
+    },
+    {
+      "url": "https://chromium.googlesource.com/external/fontconfig",
+      "ref": "2.17.1",
+      "commit": "6d0a98982ec351c165c9224c8b7dbdfca3010e47"
+    },
+    {
+      "url": "https://github.com/libass/libass.git",
+      "ref": "0.17.5",
+      "commit": "4a05d8127f525943ebf45fdc6497c9e665947f0d"
+    },
+    {
+      "url": "https://github.com/acoustid/chromaprint.git",
+      "ref": "v1.6.0",
+      "commit": "655c26f0db4d54014c367e3e714a62e3714792ce"
+    },
+    {
+      "url": "https://github.com/xiph/theora.git",
+      "ref": "v1.2.0",
+      "commit": "8e4808736e9c181b971306cc3f05df9e61354004"
+    },
+    {
+      "url": "https://github.com/sekrit-twc/zimg.git",
+      "ref": "release-3.0.6",
+      "commit": "f819b14e8f39d1282400b0d9543e8ef73c1b2bbd"
+    },
+    {
+      "url": "https://github.com/xiph/ogg.git",
+      "ref": "v1.3.6",
+      "commit": "be05b13e98b048f0b5a0f5fa8ce514d56db5f822"
+    },
+    {
+      "url": "https://github.com/FFmpeg/nv-codec-headers.git",
+      "ref": "n12.0.16.1",
+      "commit": "451da99614412a7f9526ef301a5ee0c7a6f9ad76"
+    },
+    {
+      "url": "https://github.com/intel/libva.git",
+      "ref": "2.24.1",
+      "commit": "710eb465c6277ee2cac3e6948767b01eebe7e77a"
+    },
+    {
+      "url": "https://gitlab.com/AOMediaCodec/SVT-AV1.git",
+      "ref": "v4.3.0",
+      "commit": "e3d63405f9ba8219913a7276c2c47d10e5d022fe"
+    },
+    {
+      "url": "https://github.com/KhronosGroup/Vulkan-Headers.git",
+      "ref": "v1.4.355",
+      "commit": "6433e5c70bb9ec995f72d767934acaff8ef11ae3"
+    },
+    {
+      "url": "https://github.com/KhronosGroup/Vulkan-Loader.git",
+      "ref": "v1.4.355",
+      "commit": "0d210fdf88a81b0e833096079f73dda477da62f8"
+    },
+    {
+      "url": "https://github.com/google/shaderc.git",
+      "ref": "v2026.2",
+      "commit": "d5f08ae5c5a9a45165578445cbd0f9adf0223448"
+    },
+    {
+      "url": "https://github.com/haasn/libplacebo.git",
+      "ref": "v7.360.1",
+      "commit": "cee9b076f2c63104ccfd497fa79c39a867293ec4"
+    },
+    {
+      "url": "https://github.com/intel/libvpl.git",
+      "ref": "v2.17.0",
+      "commit": "d77f9195cf495b937631607333288fd917ae8939"
+    },
+    {
+      "url": "https://fftw.org/fftw-3.3.11.tar.gz",
+      "sha256": "5630c24cdeb33b131612f7eb4b1a9934234754f9f388ff8617458d0be6f239a1",
+      "bytes": 4310712
+    },
+    {
+      "url": "https://gitlab.freedesktop.org/wtaymans/fdk-aac-stripped/-/archive/stripped5/fdk-aac-stripped-stripped5.tar.gz",
+      "sha256": "58d0b300fea4e98806119f3e6f3534ec1e026570aff66bbd5072412b66f14c83",
+      "bytes": 1819511
+    },
+    {
+      "url": "https://gitlab.freedesktop.org/mesa/libdrm/-/archive/libdrm-2.4.131/libdrm-libdrm-2.4.131.tar.gz",
+      "sha256": "94fed0e93809d239fcbcf1d652753454e728ba887fb2175534219d0e67a81814",
+      "bytes": 599670
+    },
+    {
+      "url": "https://ftpmirror.gnu.org/gnu/libiconv/libiconv-1.19.tar.gz",
+      "sha256": "88dd96a8c0464eca144fc791ae60cd31cd8ee78321e67397e25fc095c4a19aa6",
+      "bytes": 5921103
+    },
+    {
+      "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/releases/download/v1.5.2/AMF-headers-v1.5.2.tar.gz",
+      "sha256": "d3c12eb324edf05e214608b6a395a51dd95770ed9d45520185d6c3a206811c99",
+      "bytes": 83716
+    },
+    {
+      "url": "https://github.com/videolan/dav1d.git",
+      "ref": "1.5.4",
+      "commit": "54706fc6bc0cdecab7e9593974a4039cc038fca7",
+      "reason": "Official GitHub mirror; primary CodeVideoLAN blocked locally"
+    },
+    {
+      "url": "https://github.com/xiph/theora/commit/3ae2669.patch",
+      "sha256": "f110c93bfefe3e896843d3428b441395c342f40558fb52eb9cadc1fa75d7e56d",
+      "bytes": 703
+    }
+  ],
+  "patches": {
+    "cfhd-official.patch": "713a138e1abb4b28c4aa45f7c6a03ff88ef3a3386376e20e576a6b3ff6e6d557",
+    "flic-official.patch": "5def00581bad5c349a4c89687e45f5850a59669253d829b22050edae5d278f94",
+    "zlib-official.patch": "110ff14375733173d8aa54574473424fbd7dfe4b81f1ca34a759c6fe14b15b14",
+    "swscale-test-config.patch": "07678e52ea0ad6dbe1c8156d14bea1b7813a84247ff3571a8620ff5d0b9b4380"
+  },
+  "embeddedShadercSources": {
+    "abseil": "1315c900e1ddbb08a23e06eeb9a06450052ccb5e",
+    "effcee": "08da24ec245a274fea3a128ba50068f163390565",
+    "glslang": "5ed4003a18a10a9d1bd7e43aaf1664499abffa83",
+    "googletest": "1d17ea141d2c11b8917d2c7d029f1c4e2b9769b2",
+    "re2": "4a8cee3dd3c3d81b6fe8b867811e193d5819df07",
+    "spirv-headers": "ad9184e76a66b1001c29db9b0a3e87f646c64de0",
+    "spirv-tools": "c1cb30bb04e2bf911755a40df1242cc6e3d83e26"
+  },
+  "coverageNotes": [
+    "Runtime ELF paths are attributed to exact vendor versions; package metadata does not identify all bundled libraries.",
+    "Shaderc statically embeds compiler components. Their source revisions are recorded, but automated CPE advisory discovery is not exhaustive.",
+    "CPEs are explicit inventory identifiers; lack of a match is not proof of absence of vulnerabilities."
+  ]
+}

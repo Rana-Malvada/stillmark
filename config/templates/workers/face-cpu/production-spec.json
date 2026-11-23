@@ -1,0 +1,52 @@
+{
+  "spec": {
+    "containers": [
+      {
+        "name": "worker",
+        "image": "{{FACE_IMAGE}}",
+        "command": ["/usr/bin/timeout"],
+        "args": ["--kill-after=30s", "7500", "python", "/worker/worker.py"],
+        "env": {
+          "PG_HOST": "{{PG_HOST}}",
+          "PG_DATABASE": "{{PG_DATABASE}}",
+          "PG_USER": "{{FACE_PG_USER}}",
+          "PG_SSL_ROOT_CERT": "/worker/postgres-root.crt",
+          "WORKER_BATCH": "16",
+          "WORKER_PARALLEL": "{{FACE_WORKER_PARALLEL}}",
+          "WORKER_MAX_SECONDS": "7200",
+          "WORKER_RUN_ID": "RUN_ID"
+        },
+        "secrets": [
+          {
+            "snowflakeSecret": "{{DATABASE}}.{{APP_SCHEMA}}.{{FACE_SECRET}}",
+            "directoryPath": "/secrets/PG_SECRET"
+          }
+        ],
+        "resources": {
+          "requests": { "cpu": {{FACE_WORKER_CPU}}, "memory": "{{FACE_WORKER_MEMORY}}" },
+          "limits": { "cpu": {{FACE_WORKER_CPU}}, "memory": "{{FACE_WORKER_MEMORY}}" }
+        },
+        "volumeMounts": [
+          { "name": "originals", "mountPath": "/input" },
+          { "name": "faces", "mountPath": "/output" }
+        ]
+      }
+    ],
+    "volumes": [
+      {
+        "name": "originals",
+        "source": "stage",
+        "uid": 10001,
+        "gid": 10001,
+        "stageConfig": { "name": "@{{DATABASE}}.{{RAW_SCHEMA}}.{{PHOTO_STAGE}}" }
+      },
+      {
+        "name": "faces",
+        "source": "stage",
+        "uid": 10001,
+        "gid": 10001,
+        "stageConfig": { "name": "@{{DATABASE}}.{{RAW_SCHEMA}}.{{DERIVED_STAGE}}/faces" }
+      }
+    ]
+  }
+}

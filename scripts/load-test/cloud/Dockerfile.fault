@@ -1,0 +1,4 @@
+ARG WORKER_IMAGE
+FROM ${WORKER_IMAGE}
+COPY fault-worker.mjs /app/loadtest-fault-worker.mjs
+CMD ["node", "/app/loadtest-fault-worker.mjs"]

@@ -1,0 +1,28 @@
+{
+  // Type checks every gateway module; nothing is emitted. Run `npm run typecheck`
+  // (`tsc -b`), which first builds the referenced project below.
+  //
+  // `checkJs` covers each module here, including new ones, so the modules carry no
+  // `// @ts-check` line. That line would also make the application's own type check
+  // examine them under its different settings, because tests/monitor.test.ts imports
+  // alerts.mjs and, through it, most of the gateway.
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    // Workers expose web-standard globals; Cloudflare-only ones are in types.d.mts.
+    "lib": ["esnext", "webworker", "webworker.iterable"],
+    "types": [],
+    "skipLibCheck": true
+  },
+  // Tests are not type checked: they pass deliberately partial stand-ins.
+  "include": ["*.mjs", "*.d.mts"],
+  "exclude": ["*.test.mjs"],
+  // Modules imported from outside this folder belong to the application and are not
+  // checked here; their declarations are generated from source instead.
+  "references": [{ "path": "./tsconfig.shared.json" }]
+}

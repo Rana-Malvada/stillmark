@@ -1,0 +1,4 @@
+-- Disable scheduled indexing while preserving searchable existing indexes.
+-- Sync Search explicitly runs REFRESH while indexing remains SUSPENDED.
+ALTER CORTEX SEARCH SERVICE PERSONAL_MEDIA.DATA.PHOTO_SEARCH_SERVICE SUSPEND INDEXING;
+ALTER CORTEX SEARCH SERVICE PERSONAL_MEDIA.DATA.EVENT_SEARCH_SERVICE SUSPEND INDEXING;

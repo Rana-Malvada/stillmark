@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="12" fill="#201e1b"/>
+  <defs>
+    <mask id="aperture">
+      <circle cx="32" cy="32" r="26" fill="white"/>
+      <path d="M24 18.144h16L48 32l-8 13.856H24L16 32z" fill="black"/>
+      <g stroke="black" stroke-width="2.4">
+        <path d="M40 18.144H72"/>
+        <path d="M48 32 64 59.712"/>
+        <path d="M40 45.856 24 73.568"/>
+        <path d="M24 45.856H-8"/>
+        <path d="M16 32 0 4.288"/>
+        <path d="M24 18.144 40 -9.568"/>
+      </g>
+    </mask>
+  </defs>
+  <circle cx="32" cy="32" r="26" fill="#e9b66c" mask="url(#aperture)"/>
+</svg>

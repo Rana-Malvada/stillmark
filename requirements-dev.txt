@@ -1,0 +1,2 @@
+# Python formatter; install in an isolated environment.
+black==25.1.0

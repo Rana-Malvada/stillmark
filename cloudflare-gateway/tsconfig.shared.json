@@ -1,0 +1,34 @@
+{
+  // The application modules the gateway imports. They are not checked here
+  // (`checkJs` is off); this project only generates their declarations, into an
+  // ignored cache folder, so the gateway is checked against their real signatures.
+  // A gateway import of another outside module must be added to "files".
+  "compilerOptions": {
+    "composite": true,
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "..",
+    "outDir": "node_modules/.cache/shared-types",
+    "tsBuildInfoFile": "node_modules/.cache/shared-types/tsconfig.shared.tsbuildinfo",
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "lib": ["esnext", "webworker", "webworker.iterable"],
+    "types": [],
+    "skipLibCheck": true
+  },
+  "files": [
+    "../config/deployment.json",
+    "../config/deployment.mjs",
+    "../lib/branding.mjs",
+    "../lib/map-tiles.mjs",
+    "../lib/media-grant.mjs",
+    "../lib/thumbnail-cache.mjs",
+    "../lib/upload-service-policy.mjs",
+    "../public/preview-batch.mjs"
+  ]
+}

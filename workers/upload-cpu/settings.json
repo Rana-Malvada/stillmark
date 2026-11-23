@@ -1,0 +1,21 @@
+{
+  "image": "/personal_media/app/photos_repo/upload-worker:release-20261122-feefccc@sha256:5846663b11728bc046531f3298b9fd4a50cf5461900d37211ea936147df6073b",
+  "minNodes": 1,
+  "maxNodes": 1,
+  "minInstances": 1,
+  "maxInstances": 1,
+  "completionsPerInstance": "auto",
+  "managedRouting": true,
+  "customerAccountsEnabled": true,
+  "queuedProcessing": true,
+  "metricsEnabled": true,
+  "scaling": {
+    "enabled": false,
+    "queueThreshold": 20,
+    "waitSeconds": 30,
+    "scaleUpSeconds": 60,
+    "scaleDownSeconds": 600
+  },
+  "instanceFamily": "CPU_X64_XS",
+  "permissionAuthority": "postgres"
+}

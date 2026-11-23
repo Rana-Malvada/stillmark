@@ -1,0 +1,14 @@
+*
+!Dockerfile
+!requirements.txt
+!models.lock
+!faces.py
+!cluster.py
+!worker.py
+!LICENSES.md
+!postgres-root.crt
+
+!requirements-linux-amd64.lock
+
+!inference_pool.py
+!bounded_merge.py

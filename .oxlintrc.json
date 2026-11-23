@@ -1,0 +1,67 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "nextjs", "import", "promise"],
+  "categories": { "correctness": "error" },
+  "env": { "browser": true, "node": true, "es2024": true },
+  "rules": {
+    // Layout consistency: one import per module, a blank line after the import block,
+    // members sorted inside braces, and one declaration per statement.
+    "import/no-duplicates": "error",
+    "import/newline-after-import": "error",
+    "sort-imports": ["error", { "ignoreDeclarationSort": true, "ignoreCase": true }],
+    "one-var": ["error", "never"],
+    // The automatic JSX runtime is used; React does not need to be in scope.
+    "react/react-in-jsx-scope": "off",
+    // `({ omitted: _, ...rest })` is the idiom for dropping a field.
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true, "argsIgnorePattern": "^_" }],
+    // Control characters in these patterns are the point: they reject or strip them.
+    "no-control-regex": "off",
+    // Media is served through authorized, signed routes, not the Next.js image optimizer.
+    "nextjs/no-img-element": "off",
+    // Sign-in, sign-out and account links must be full navigations through the gateway.
+    "nextjs/no-html-link-for-pages": "off",
+    // React Compiler readiness rules. Every component passes them. The few effects
+    // that must stay as written (a reset that has to follow request cancellation, a
+    // reload trigger, a live counter read in cleanup) carry a one-line
+    // `oxlint-disable-next-line <rule> -- <reason>`; new code needs the same.
+    "react/set-state-in-effect": "error",
+    "react/refs": "error",
+    "react/purity": "error",
+    "react/immutability": "error",
+    "react/exhaustive-effect-dependencies": "error",
+    "react-hooks/exhaustive-deps": "error"
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "node_modules/**",
+    "public/vendor/**",
+    "setup/**",
+    "**/dist/**",
+    "output/**",
+    "next-env.d.ts"
+  ],
+  "overrides": [
+    {
+      // Screens never talk to the database or to Snowflake directly: they call the API.
+      "files": ["components/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/lib/database/*",
+                  "@/lib/postgres",
+                  "@/lib/snowflake",
+                  "@/lib/snowflake/*"
+                ],
+                "message": "Components must not import database or Snowflake modules; call an API route."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

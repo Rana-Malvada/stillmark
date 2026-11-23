@@ -1,0 +1,17 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public Auth0 client ID and explicit dummy test passwords (not credentials)"
+stopwords = ['EXAMPLEauth0GATEWAYclientID00001', 'PrivatePass1234', 'StrongPass1234']
+
+[[allowlists]]
+description = "Historical setup SHA-256 inventory, verified against repository files"
+condition = "AND"
+paths = ['''^setup/legacy-checksums\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"setup/[^"\r\n]+\.(sql|js)": "[a-f0-9]{64}",?\s*$''']
+
+[[allowlists]]
+description = "Public Auth0 gallery OAuth client identifier; not a client secret"
+stopwords = ['EXAMPLEauth0GALLERYclientID00002']

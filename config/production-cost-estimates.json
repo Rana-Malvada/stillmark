@@ -1,0 +1,22 @@
+{
+  "periods": [
+    {
+      "key": "runtime",
+      "resource": "PERSONAL_MEDIA.APP.PERSONAL_PHOTOS_APP",
+      "from": "2026-10-01T04:00:00Z",
+      "until": null,
+      "creditsPerHour": 0.0297,
+      "units": 1,
+      "basis": "Single continuously running production app baseline; approximate normalized hosting rate, not per-app billed attribution."
+    },
+    {
+      "key": "postgres",
+      "resource": "PERSONAL_MEDIA_PG",
+      "from": "2026-10-01T04:00:00Z",
+      "until": null,
+      "creditsPerHour": 0.0136,
+      "units": 1,
+      "basis": "AWS BURST_S without HA, continuously running. Current published rate assumed throughout the estimate period."
+    }
+  ]
+}

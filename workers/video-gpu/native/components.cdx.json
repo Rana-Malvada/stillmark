@@ -1,0 +1,404 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:b497b00e-d252-44d7-9486-c43af21e5a22",
+  "version": 1,
+  "components": [
+    {
+      "type": "library",
+      "name": "libxml2",
+      "version": "2.15.4",
+      "purl": "pkg:generic/libxml2@2.15.4",
+      "cpe": "cpe:2.3:a:xmlsoft:libxml2:2.15.4:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libxml2.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "ffmpeg",
+      "version": "8.1.3",
+      "purl": "pkg:generic/ffmpeg@8.1.3",
+      "cpe": "cpe:2.3:a:ffmpeg:ffmpeg:8.1.3:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"ffmpeg\", \"ffprobe\", \"lib/libav*.so*\", \"lib/libsw*.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libiconv",
+      "version": "1.19",
+      "purl": "pkg:generic/libiconv@1.19",
+      "cpe": "cpe:2.3:a:gnu:libiconv:1.19:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libiconv.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "zlib",
+      "version": "1.3.2",
+      "purl": "pkg:generic/zlib@1.3.2",
+      "cpe": "cpe:2.3:a:zlib:zlib:1.3.2:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libz.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "freetype",
+      "version": "2.14.3",
+      "purl": "pkg:generic/freetype@2.14.3",
+      "cpe": "cpe:2.3:a:freetype:freetype:2.14.3:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libfreetype.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fribidi",
+      "version": "1.0.16",
+      "purl": "pkg:generic/fribidi@1.0.16",
+      "cpe": "cpe:2.3:a:gnu:fribidi:1.0.16:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libfribidi.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fontconfig",
+      "version": "2.17.1",
+      "purl": "pkg:generic/fontconfig@2.17.1",
+      "cpe": "cpe:2.3:a:fontconfig_project:fontconfig:2.17.1:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libfontconfig.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "harfbuzz",
+      "version": "14.2.1",
+      "purl": "pkg:generic/harfbuzz@14.2.1",
+      "cpe": "cpe:2.3:a:harfbuzz_project:harfbuzz:14.2.1:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libharfbuzz.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libass",
+      "version": "0.17.5",
+      "purl": "pkg:generic/libass@0.17.5",
+      "cpe": "cpe:2.3:a:libass_project:libass:0.17.5:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libass.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fftw",
+      "version": "3.3.11",
+      "purl": "pkg:generic/fftw@3.3.11",
+      "cpe": "cpe:2.3:a:fftw:fftw:3.3.11:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libfftw3f.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "dav1d",
+      "version": "1.5.4",
+      "purl": "pkg:generic/dav1d@1.5.4",
+      "cpe": "cpe:2.3:a:videolan:dav1d:1.5.4:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libdav1d.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "svt-av1",
+      "version": "4.3.0",
+      "purl": "pkg:generic/svt-av1@4.3.0",
+      "cpe": "cpe:2.3:a:aomedia:svt-av1:4.3.0:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libSvtAv1Enc.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libdrm",
+      "version": "2.4.131",
+      "purl": "pkg:generic/libdrm@2.4.131",
+      "cpe": "cpe:2.3:a:freedesktop:libdrm:2.4.131:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libdrm*.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libva",
+      "version": "2.24.1",
+      "purl": "pkg:generic/libva@2.24.1",
+      "cpe": "cpe:2.3:a:intel:libva:2.24.1:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libva.so*\", \"lib/libva-drm.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libvpl",
+      "version": "2.17.0",
+      "purl": "pkg:generic/libvpl@2.17.0",
+      "cpe": "cpe:2.3:a:intel:onevpl:2.17.0:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libvpl.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "vulkan-loader",
+      "version": "1.4.355",
+      "purl": "pkg:generic/vulkan-loader@1.4.355",
+      "cpe": "cpe:2.3:a:khronos:vulkan-loader:1.4.355:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libvulkan.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "shaderc",
+      "version": "2026.2",
+      "purl": "pkg:generic/shaderc@2026.2",
+      "cpe": "cpe:2.3:a:google:shaderc:2026.2:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libshaderc_shared.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libplacebo",
+      "version": "7.360.1",
+      "purl": "pkg:generic/libplacebo@7.360.1",
+      "cpe": "cpe:2.3:a:videolan:libplacebo:7.360.1:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "vendor v8.1.3-2 docker-build.sh; libxml2 replaced with verified2.15.4"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libplacebo.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libunibreak",
+      "version": "7.0",
+      "purl": "pkg:generic/libunibreak@7.0",
+      "cpe": "cpe:2.3:a:libunibreak_project:libunibreak:7.0:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libunibreak.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "chromaprint",
+      "version": "1.6.0",
+      "purl": "pkg:generic/chromaprint@1.6.0",
+      "cpe": "cpe:2.3:a:acoustid:chromaprint:1.6.0:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libchromaprint.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "zimg",
+      "version": "3.0.6",
+      "purl": "pkg:generic/zimg@3.0.6",
+      "cpe": "cpe:2.3:a:sekrit-twc:zimg:3.0.6:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libzimg.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libogg",
+      "version": "1.3.6",
+      "purl": "pkg:generic/libogg@1.3.6",
+      "cpe": "cpe:2.3:a:xiph:libogg:1.3.6:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "Vendor8 pinned docker-build.sh source tag and actual ELF inventory; CPE mapping candidate requiring advisory review"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libogg.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libtheora",
+      "version": "1.2.0",
+      "purl": "pkg:generic/libtheora@1.2.0",
+      "cpe": "cpe:2.3:a:xiph:libtheora:1.2.0:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "Vendor8 pinned docker-build.sh source tag and actual ELF inventory; CPE mapping candidate requiring advisory review"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libtheora*.so*\"]"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "fdk-aac",
+      "version": "2.0.3",
+      "purl": "pkg:generic/fdk-aac@2.0.3",
+      "cpe": "cpe:2.3:a:fraunhofer:fdk_aac:2.0.3:*:*:*:*:*:*:*",
+      "properties": [
+        {
+          "name": "stillmark:evidence",
+          "value": "Vendor8 pinned docker-build.sh source tag and actual ELF inventory; CPE mapping candidate requiring advisory review"
+        },
+        {
+          "name": "stillmark:runtime-paths",
+          "value": "[\"lib/libfdk-aac.so*\"]"
+        }
+      ]
+    }
+  ]
+}

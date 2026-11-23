@@ -1,0 +1,17 @@
+node_modules/
+.next/
+dist/
+.release/
+.deployment-backups/
+output/
+HANDOFF.md
+package-lock.json
+**/package-lock.json
+setup/identity/
+*.sql
+**/*.sql
+public/vendor/
+security/deployed-images/
+next-env.d.ts
+config/templates/
+.snowflake/

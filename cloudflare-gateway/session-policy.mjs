@@ -1,0 +1,1 @@
+export const REMEMBERED_SESSION_SECONDS = 30 * 24 * 3600

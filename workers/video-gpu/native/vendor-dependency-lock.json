@@ -1,0 +1,138 @@
+[
+  {
+    "url": "https://github.com/madler/zlib.git",
+    "ref": "v1.3.2",
+    "commit": "da607da739fa6047df13e66a2af6b8bec7c2a498"
+  },
+  {
+    "url": "https://github.com/fribidi/fribidi.git",
+    "ref": "v1.0.16",
+    "commit": "68162babff4f39c4e2dc164a5e825af93bda9983"
+  },
+  {
+    "url": "https://github.com/freetype/freetype.git",
+    "ref": "VER-2-14-3",
+    "commit": "0a0221a1347e2f1e07c395263540026e9a0aa7c7"
+  },
+  {
+    "url": "https://github.com/GNOME/libxml2.git",
+    "ref": "v2.15.4",
+    "commit": "96498992efa48d52b0e8b83058bd88dbdaf153c1"
+  },
+  {
+    "url": "https://github.com/harfbuzz/harfbuzz.git",
+    "ref": "14.2.1",
+    "commit": "56feae4035bdd48f62ba2b8d8c16232d4d89b3a4"
+  },
+  {
+    "url": "https://github.com/adah1972/libunibreak.git",
+    "ref": "libunibreak_7_0",
+    "commit": "3ce4bfa3129ff3738046a44a6db533d2ce25af2b"
+  },
+  {
+    "url": "https://chromium.googlesource.com/external/fontconfig",
+    "ref": "2.17.1",
+    "commit": "6d0a98982ec351c165c9224c8b7dbdfca3010e47"
+  },
+  {
+    "url": "https://github.com/libass/libass.git",
+    "ref": "0.17.5",
+    "commit": "4a05d8127f525943ebf45fdc6497c9e665947f0d"
+  },
+  {
+    "url": "https://github.com/acoustid/chromaprint.git",
+    "ref": "v1.6.0",
+    "commit": "655c26f0db4d54014c367e3e714a62e3714792ce"
+  },
+  {
+    "url": "https://github.com/xiph/theora.git",
+    "ref": "v1.2.0",
+    "commit": "8e4808736e9c181b971306cc3f05df9e61354004"
+  },
+  {
+    "url": "https://github.com/sekrit-twc/zimg.git",
+    "ref": "release-3.0.6",
+    "commit": "f819b14e8f39d1282400b0d9543e8ef73c1b2bbd"
+  },
+  {
+    "url": "https://github.com/xiph/ogg.git",
+    "ref": "v1.3.6",
+    "commit": "be05b13e98b048f0b5a0f5fa8ce514d56db5f822"
+  },
+  {
+    "url": "https://github.com/FFmpeg/nv-codec-headers.git",
+    "ref": "n12.0.16.1",
+    "commit": "451da99614412a7f9526ef301a5ee0c7a6f9ad76"
+  },
+  {
+    "url": "https://github.com/intel/libva.git",
+    "ref": "2.24.1",
+    "commit": "710eb465c6277ee2cac3e6948767b01eebe7e77a"
+  },
+  {
+    "url": "https://gitlab.com/AOMediaCodec/SVT-AV1.git",
+    "ref": "v4.3.0",
+    "commit": "e3d63405f9ba8219913a7276c2c47d10e5d022fe"
+  },
+  {
+    "url": "https://github.com/KhronosGroup/Vulkan-Headers.git",
+    "ref": "v1.4.355",
+    "commit": "6433e5c70bb9ec995f72d767934acaff8ef11ae3"
+  },
+  {
+    "url": "https://github.com/KhronosGroup/Vulkan-Loader.git",
+    "ref": "v1.4.355",
+    "commit": "0d210fdf88a81b0e833096079f73dda477da62f8"
+  },
+  {
+    "url": "https://github.com/google/shaderc.git",
+    "ref": "v2026.2",
+    "commit": "d5f08ae5c5a9a45165578445cbd0f9adf0223448"
+  },
+  {
+    "url": "https://github.com/haasn/libplacebo.git",
+    "ref": "v7.360.1",
+    "commit": "cee9b076f2c63104ccfd497fa79c39a867293ec4"
+  },
+  {
+    "url": "https://github.com/intel/libvpl.git",
+    "ref": "v2.17.0",
+    "commit": "d77f9195cf495b937631607333288fd917ae8939"
+  },
+  {
+    "url": "https://fftw.org/fftw-3.3.11.tar.gz",
+    "sha256": "5630c24cdeb33b131612f7eb4b1a9934234754f9f388ff8617458d0be6f239a1",
+    "bytes": 4310712
+  },
+  {
+    "url": "https://gitlab.freedesktop.org/wtaymans/fdk-aac-stripped/-/archive/stripped5/fdk-aac-stripped-stripped5.tar.gz",
+    "sha256": "58d0b300fea4e98806119f3e6f3534ec1e026570aff66bbd5072412b66f14c83",
+    "bytes": 1819511
+  },
+  {
+    "url": "https://gitlab.freedesktop.org/mesa/libdrm/-/archive/libdrm-2.4.131/libdrm-libdrm-2.4.131.tar.gz",
+    "sha256": "94fed0e93809d239fcbcf1d652753454e728ba887fb2175534219d0e67a81814",
+    "bytes": 599670
+  },
+  {
+    "url": "https://ftpmirror.gnu.org/gnu/libiconv/libiconv-1.19.tar.gz",
+    "sha256": "88dd96a8c0464eca144fc791ae60cd31cd8ee78321e67397e25fc095c4a19aa6",
+    "bytes": 5921103
+  },
+  {
+    "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/releases/download/v1.5.2/AMF-headers-v1.5.2.tar.gz",
+    "sha256": "d3c12eb324edf05e214608b6a395a51dd95770ed9d45520185d6c3a206811c99",
+    "bytes": 83716
+  },
+  {
+    "url": "https://github.com/videolan/dav1d.git",
+    "ref": "1.5.4",
+    "commit": "54706fc6bc0cdecab7e9593974a4039cc038fca7",
+    "reason": "Official GitHub mirror; primary CodeVideoLAN blocked locally"
+  },
+  {
+    "url": "https://github.com/xiph/theora/commit/3ae2669.patch",
+    "sha256": "f110c93bfefe3e896843d3428b441395c342f40558fb52eb9cadc1fa75d7e56d",
+    "bytes": 703
+  }
+]

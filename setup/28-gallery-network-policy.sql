@@ -1,0 +1,12 @@
+-- Run before deploying the provisioning change. User-level only: never attach
+-- this policy to the account, EXAMPLEADMIN, or PERSONAL_PHOTOS_GATEWAY.
+USE ROLE ACCOUNTADMIN;
+CREATE NETWORK RULE IF NOT EXISTS PERSONAL_MEDIA.APP.GALLERY_BLOCK_DIRECT_IPV4
+ MODE=INGRESS TYPE=IPV4 VALUE_LIST=('0.0.0.0/0');
+CREATE NETWORK RULE IF NOT EXISTS PERSONAL_MEDIA.APP.GALLERY_BLOCK_DIRECT_IPV6
+ MODE=INGRESS TYPE=IPV6 VALUE_LIST=('::/0');
+CREATE NETWORK POLICY IF NOT EXISTS PERSONAL_PHOTOS_NO_DIRECT_LOGIN
+ BLOCKED_NETWORK_RULE_LIST=('PERSONAL_MEDIA.APP.GALLERY_BLOCK_DIRECT_IPV4','PERSONAL_MEDIA.APP.GALLERY_BLOCK_DIRECT_IPV6')
+ COMMENT='Gallery users authenticate through Auth0 gateway only; block direct Snowflake login';
+-- Existing users are migrated explicitly after inventory review. Future app
+-- users receive NETWORK_POLICY in CREATE USER, including provisioning retries.

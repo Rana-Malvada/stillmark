@@ -1,0 +1,7 @@
+psycopg[binary]==3.2.10
+transformers==5.10.4
+huggingface-hub==1.33.0
+-r ../shared/requirements.txt
+pytesseract==0.3.13
+numpy==2.2.6
+safetensors==0.8.0
