@@ -26,6 +26,26 @@ search all use Snowflake services, with Cloudflare and Auth0 at the public edge.
 [Threat model](docs/THREAT-MODEL.md) · [Releases](docs/SAFE-RELEASES.md) ·
 [All documentation](docs/README.md)
 
+## What it looks like
+
+These are screenshots of the running application. The album, photo and search views use
+a demo album of scenery from the owner's own library.
+
+| An album                                                                                | A photo with its AI description and tags                                                                   |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| ![An album shown as a grid of one hundred landscape photos](docs/screenshots/album.jpg) | ![A photo of Horseshoe Bend beside its generated description and tags](docs/screenshots/photo-details.jpg) |
+
+| Search                                                                                        | Places                                                                                                          |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| ![Search results for the word iceberg, a grid of iceberg photos](docs/screenshots/search.jpg) | ![A world map with clusters showing how many photos were taken in each region](docs/screenshots/places-map.jpg) |
+
+| Costs over time                                                                                   | Costs by type                                                                                          |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| ![A cost page with a subtotal, storage totals and a daily cost chart](docs/screenshots/costs.jpg) | ![A table of cost types with Snowflake credits and estimated dollars](docs/screenshots/cost-types.jpg) |
+
+The figures in the two cost screenshots are illustrative: every amount was changed for
+the capture, and only the proportions between them are real.
+
 ## Architecture at a glance
 
 ```mermaid
